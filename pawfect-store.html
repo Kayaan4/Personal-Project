@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawfect Store - Quality Pet Supplies for All Pets</title>
+    <meta name="description" content="Shop premium pet supplies including food, bedding, cages, toys and accessories for dogs, cats, birds, and small pets. Quality products at great prices in INR.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: hsl(25, 95%, 53%);
+            --secondary: hsl(180, 54%, 45%);
+            --accent: hsl(12, 100%, 70%);
+            --background: hsl(0, 0%, 100%);
+            --foreground: hsl(20, 14%, 15%);
+            --muted: hsl(20, 20%, 96%);
+            --muted-foreground: hsl(20, 10%, 45%);
+            --border: hsl(20, 20%, 90%);
+            --shadow-card: 0 4px 20px -2px hsl(20 20% 80% / 0.15);
+            --shadow-hover: 0 8px 30px -4px hsl(25 95% 53% / 0.25);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--foreground);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .cart-btn {
+            position: relative;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            height: 600px;
+            background: linear-gradient(135deg, var(--primary), hsl(35, 100%, 60%));
+            color: white;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* Categories */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: var(--shadow-card);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--foreground);
+        }
+
+        .category-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .category-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .product-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background: var(--muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-brand {
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            flex: 1;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: var(--muted-foreground);
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: hsl(25, 95%, 48%);
+        }
+
+        /* Cart Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 0.5rem;
+            background: var(--muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 1.5rem;
+            color: var(--primary);
+        }
+
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid var(--border);
+            background: white;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--muted);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-hover);
+            transform: translateY(200%);
+            transition: transform 0.3s;
+            z-index: 200;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">
+                <span>🐾</span>
+                <span>Pawfect Store</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="cart-btn" onclick="toggleCart()">
+                🛒 Cart
+                <span class="cart-badge" id="cartBadge">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content container">
+            <div>
+                <h1>Everything Your Pet Needs</h1>
+                <p>Quality products for dogs, cats, birds, and small pets. From food to toys and accessories.</p>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="#products" class="btn btn-primary">Shop Now →</a>
+                    <a href="#contact" class="btn btn-outline">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="section" style="background: var(--muted);">
+        <div class="container">
+            <h2 class="section-title">Shop by Category</h2>
+            <div class="categories">
+                <div class="category-card" onclick="filterProducts('food')">
+                    <div class="category-icon">🍖</div>
+                    <h3>Food</h3>
+                    <p>Premium nutrition for all pets</p>
+                </div>
+                <div class="category-card" onclick="filterProducts('bedding')">
+                    <div class="category-icon">🛏️</div>
+                    <h3>Bedding</h3>
+                    <p>Comfortable rest for your pets</p>
+                </div>
+                <div class="category-card" onclick="filterProducts('cages')">
+                    <div class="category-icon">🏠</div>
+                    <h3>Cages</h3>
+                    <p>Safe homes for birds & small pets</p>
+                </div>
+                <div class="category-card" onclick="filterProducts('accessories')">
+                    <div class="category-icon">🎾</div>
+                    <h3>Accessories</h3>
+                    <p>Toys, bowls & more</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section-title">Our Products</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterProducts('all')">All Products</button>
+                <button class="filter-btn" onclick="filterProducts('food')">Food</button>
+                <button class="filter-btn" onclick="filterProducts('bedding')">Bedding</button>
+                <button class="filter-btn" onclick="filterProducts('cages')">Cages</button>
+                <button class="filter-btn" onclick="filterProducts('accessories')">Accessories</button>
+            </div>
+            <div class="products-grid" id="productsGrid"></div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact" style="background: var(--muted);">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">Have questions? We'd love to hear from you!</p>
+                <div style="display: grid; gap: 1rem; margin-bottom: 2rem;">
+                    <div>
+                        <h3>📧 Email</h3>
+                        <a href="mailto:kayaan.goswami@gmail.com" style="color: var(--primary);">kayaan.goswami@gmail.com</a>
+                    </div>
+                    <div>
+                        <h3>📞 Phone</h3>
+                        <a href="+91 9152339089" style="color: var(--primary);">+91 9152339089</a>
+                    </div>
+                    <div>
+                        <h3>📍 Location</h3>
+                        <p>Mulund west, Mumbai, India</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025s Pawfect Store. All rights reserved.</p>
+            <p style="margin-top: 0.5rem;">Quality pet supplies for happy, healthy pets.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Shopping Cart</h2>
+                <button class="close-btn" onclick="toggleCart()">✕</button>
+            </div>
+            <div id="cartItems"></div>
+            <div class="cart-total" id="cartTotal">Total: ₹0.00</div>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="checkout()">
+                Proceed to Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Emoji representations for products
+        const emojiData = {
+            'dog-food': '🦴',
+            'cat-food': '🐟',
+            'bird-food': '🌾',
+            'hamster-bedding': '🧸',
+            'dog-bed': '🛏️',
+            'bird-cage': '🏠',
+            'hamster-cage': '🏰',
+            'cat-litter': '🪣',
+            'cat-bed': '🛋️',
+            'bird-perch': '🪵',
+            'dog-bowl': '🥣',
+            'cat-toy': '🧶',
+            'dog-toy': '🪢',
+            'hamster-wheel': '⚙️',
+            'dog-ball': '⚽',
+            'cat-puzzle': '🧩',
+            'dog-collar': '🎀',
+            'cat-scratcher': '🗼',
+            'bird-toys': '🔔',
+            'hamster-tunnel': '🚇',
+            'pet-sweater': '🧥',
+            'water-fountain': '⛲'
+        };
+
+        // Products Database
+        const products = [
+            {id: 1, name: "Premium Dog Food", brand: "Pawsome Nutrition", price: 4149, category: "food", petType: "dog", size: "Large (15kg)", description: "High-quality protein-rich kibble for adult dogs. Made with real chicken and vegetables.", emoji: emojiData['dog-food'], rating: 4.8},
+            {id: 2, name: "Gourmet Cat Food", brand: "Feline Feast", price: 2489, category: "food", petType: "cat", size: "24-pack", description: "Delicious wet food for cats with real salmon. Grain-free formula.", emoji: emojiData['cat-food'], rating: 4.9},
+            {id: 3, name: "Premium Bird Seed Mix", brand: "Feathered Friends", price: 1659, category: "food", petType: "bird", size: "Medium (5lb)", description: "Nutritious blend of seeds, nuts, and dried fruits for parakeets.", emoji: emojiData['bird-food'], rating: 4.7},
+            {id: 4, name: "Ultra Soft Hamster Bedding", brand: "Cozy Critters", price: 1327, category: "bedding", petType: "hamster", size: "Large (50L)", description: "Natural paper-based bedding that's soft, absorbent, and dust-free.", emoji: emojiData['hamster-bedding'], rating: 4.6},
+            {id: 5, name: "Orthopedic Dog Bed", brand: "Comfort Paws", price: 7469, category: "bedding", petType: "dog", size: "Large (42x28\")", description: "Memory foam dog bed with removable washable cover. Superior joint support.", emoji: emojiData['dog-bed'], rating: 4.9},
+            {id: 6, name: "Deluxe Bird Cage", brand: "Aviary Elite", price: 16599, category: "cages", petType: "bird", size: "Large (36x24x36\")", description: "Spacious stainless steel cage with multiple perches. Easy to clean.", emoji: emojiData['bird-cage'], rating: 4.8},
+            {id: 7, name: "Multi-Level Hamster Habitat", brand: "Happy Habitat", price: 6639, category: "cages", petType: "hamster", size: "Medium (24x16x16\")", description: "Colorful hamster cage with tubes, wheels, and multiple levels.", emoji: emojiData['hamster-cage'], rating: 4.7},
+            {id: 8, name: "Hooded Cat Litter Box", brand: "Kitty Clean", price: 3813, category: "accessories", petType: "cat", size: "Large", description: "Modern design litter box with high sides and privacy hood.", emoji: emojiData['cat-litter'], rating: 4.5},
+            {id: 9, name: "Plush Cat Bed", brand: "Feline Comfort", price: 3319, category: "bedding", petType: "cat", size: "Medium (20\")", description: "Ultra-soft donut-shaped cat bed with raised edges for ultimate comfort.", emoji: emojiData['cat-bed'], rating: 4.8},
+            {id: 10, name: "Natural Wood Bird Perch", brand: "Aviary Essentials", price: 1078, category: "bedding", petType: "bird", size: "Standard (12\")", description: "Comfortable natural wood perch for birds with varying diameters.", emoji: emojiData['bird-perch'], rating: 4.5},
+            {id: 11, name: "Stainless Steel Dog Bowl Set", brand: "Pawsome Essentials", price: 2074, category: "accessories", petType: "dog", size: "Large (2 bowls)", description: "Premium stainless steel food and water bowls with non-slip rubber base.", emoji: emojiData['dog-bowl'], rating: 4.7},
+            {id: 12, name: "Interactive Cat Feather Toy", brand: "Playful Paws", price: 829, category: "accessories", petType: "cat", size: "One Size", description: "Engaging feather wand toy for interactive play. Stimulates hunting instincts.", emoji: emojiData['cat-toy'], rating: 4.9},
+            {id: 13, name: "Durable Rope Toy", brand: "Tough Toys", price: 1244, category: "accessories", petType: "dog", size: "Large", description: "Heavy-duty braided rope toy for aggressive chewers. Great for dental health.", emoji: emojiData['dog-toy'], rating: 4.8},
+            {id: 14, name: "Colorful Hamster Exercise Wheel", brand: "Active Critters", price: 1410, category: "accessories", petType: "hamster", size: "Medium (6.5\")", description: "Silent spinner wheel for hamsters. Provides essential exercise.", emoji: emojiData['hamster-wheel'], rating: 4.6},
+            {id: 15, name: "Rubber Ball Toy", brand: "Bounce Buddies", price: 664, category: "accessories", petType: "dog", size: "Medium", description: "Durable rubber ball for fetch and play. Perfect for active dogs.", emoji: emojiData['dog-ball'], rating: 4.7},
+            {id: 16, name: "Cat Puzzle Feeder", brand: "Smart Pets", price: 1493, category: "accessories", petType: "cat", size: "One Size", description: "Interactive puzzle feeder that challenges your cat's mind while feeding.", emoji: emojiData['cat-puzzle'], rating: 4.8},
+            {id: 17, name: "Premium Leather Dog Collar", brand: "Luxury Pets", price: 2074, category: "accessories", petType: "dog", size: "Adjustable", description: "Handcrafted leather collar with brass buckle. Stylish and durable.", emoji: emojiData['dog-collar'], rating: 4.9},
+            {id: 18, name: "Cat Scratching Tower", brand: "Scratch Masters", price: 4979, category: "accessories", petType: "cat", size: "Large (4ft)", description: "Multi-level scratching post tower with platforms and hanging toys.", emoji: emojiData['cat-scratcher'], rating: 4.8},
+            {id: 19, name: "Bird Toy Set with Bells", brand: "Chirp & Play", price: 996, category: "accessories", petType: "bird", size: "Set of 5", description: "Colorful hanging toys with bells and mirrors for bird entertainment.", emoji: emojiData['bird-toys'], rating: 4.6},
+            {id: 20, name: "Hamster Tunnel System", brand: "Explorer Pets", price: 1825, category: "accessories", petType: "hamster", size: "5-piece set", description: "Colorful plastic tunnel system for hamster adventure and exercise.", emoji: emojiData['hamster-tunnel'], rating: 4.7},
+            {id: 21, name: "Cozy Pet Sweater", brand: "Fashion Pets", price: 1659, category: "accessories", petType: "dog", size: "Small/Medium/Large", description: "Warm knit sweater for small to medium dogs. Perfect for winter.", emoji: emojiData['pet-sweater'], rating: 4.5},
+            {id: 22, name: "Automatic Pet Water Fountain", brand: "Hydro Pets", price: 3319, category: "accessories", petType: "all", size: "2L Capacity", description: "Filtered water fountain with continuous flow for cats and dogs.", emoji: emojiData['water-fountain'], rating: 4.9}
+        ];
+
+        let cart = [];
+        let currentFilter = 'all';
+
+        function renderProducts(filter = 'all') {
+            const grid = document.getElementById('productsGrid');
+            const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+            
+            grid.innerHTML = filtered.map(product => `
+                <div class="product-card">
+                    <div class="product-image">${product.emoji}</div>
+                    <div class="product-info">
+                        <div class="product-brand">${product.brand}</div>
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-footer">
+                            <div class="product-price">₹${product.price.toFixed(2)}</div>
+                            <div class="product-rating">⭐ ${product.rating}</div>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(${product.id})">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterProducts(category) {
+            currentFilter = category;
+            renderProducts(category);
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+            
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({...product, quantity: 1});
+            }
+            
+            updateCart();
+            showToast(`${product.name} added to cart!`);
+        }
+
+        function updateCart() {
+            const badge = document.getElementById('cartBadge');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            badge.textContent = totalItems;
+            
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; padding: 2rem; color: var(--muted-foreground);">Your cart is empty</p>';
+                cartTotal.textContent = 'Total: ₹0.00';
+                return;
+            }
+            
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div class="cart-item-image">${item.emoji}</div>
+                    <div class="cart-item-info">
+                        <h4>${item.name}</h4>
+                        <p style="color: var(--muted-foreground); font-size: 0.875rem;">${item.brand}</p>
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem;">
+                            <button onclick="changeQuantity(${item.id}, -1)" style="background: var(--border); border: none; padding: 0.25rem 0.75rem; border-radius: 0.25rem; cursor: pointer;">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="changeQuantity(${item.id}, 1)" style="background: var(--border); border: none; padding: 0.25rem 0.75rem; border-radius: 0.25rem; cursor: pointer;">+</button>
+                            <span style="margin-left: auto; font-weight: bold;">₹${(item.price * item.quantity).toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotal.textContent = `Total: ₹${total.toFixed(2)}`;
+        }
+
+        function changeQuantity(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+            
+            item.quantity += delta;
+            
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== productId);
+            }
+            
+            updateCart();
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.toggle('active');
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                showToast('Your cart is empty!');
+                return;
+            }
+            showToast('Proceeding to checkout... (Demo)');
+            // In a real app, this would redirect to payment page
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize
+        renderProducts();
+    </script>
+</body>
+</html>
